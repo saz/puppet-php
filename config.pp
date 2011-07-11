@@ -25,9 +25,9 @@ class php::config {
         require => Class["php::install"],
         ensure  => file,
         source  => [
-            "puppet:///files/hosts/$hostname/php/cli_php.ini",
-            "puppet:///files/hosts/$fqdn/php/cli_php.ini",
-            "puppet:///files/domains/$domain/php/cli_php.ini",
+            "puppet:///files/hosts/${hostname}/php/cli_php.ini",
+            "puppet:///files/hosts/${fqdn}/php/cli_php.ini",
+            "puppet:///files/domains/${domain}/php/cli_php.ini",
             "puppet:///files/global/php/cli_php.ini",
             undef,
         ],

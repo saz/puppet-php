@@ -6,9 +6,9 @@ class php::apache2::config {
         notify  => Class["php::apache2::service"],
         ensure  => file,
         source  => [
-            "puppet:///files/hosts/$hostname/php/apache2_php.ini",
-            "puppet:///files/hosts/$fqdn/php/apache2_php.ini",
-            "puppet:///files/domains/$domain/php/apache2_php.ini",
+            "puppet:///files/hosts/${hostname}/php/apache2_php.ini",
+            "puppet:///files/hosts/${fqdn}/php/apache2_php.ini",
+            "puppet:///files/domains/${domain}/php/apache2_php.ini",
             "puppet:///files/global/php/apache2_php.ini",
             undef,
         ],
