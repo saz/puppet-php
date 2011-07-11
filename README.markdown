@@ -1,7 +1,7 @@
 # puppet-php
 
 puppet-php is a puppet module to manage PHP on your systems.
-It enabled you to manage the CLI version on PHP, Apache and FPM.
+You can manage the CLI, Apache and FPM version of PHP.
 
 ## How to use
 
@@ -39,6 +39,12 @@ that your file will be not deleted.
 ## Service Notification
 * If you include php::apache2, Apache will be notified of changes
 * If you include php::fpm, FPM will be notified of changes
+
+## Requirements
+* php::apache2 requires apache module
+
+## Notes
+* php::apache2 and php::fpm both install CLI version
 
 
 ## TODO
