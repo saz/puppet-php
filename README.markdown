@@ -16,6 +16,7 @@ You can manage the CLI, Apache and FPM version of PHP.
 
 ### Install additional modules
 ```php::module { "snmp": }```
+
 This will install the PHP SNMP module.
 You're also able to set ```require => Foo["Bar"]``` if you need anything else, like sources lists before.
 
@@ -23,15 +24,22 @@ You're also able to set ```require => Foo["Bar"]``` if you need anything else, l
 ```php::conf { "global":
     source => "puppet:///files/php/global.ini",
 }```
+
 This will install additional config snippets.
 
 ## Config files
 The config files, like php.ini or module configurations in conf.d will be fetched from the following locations:
+
 1. puppet:///files/hosts/$hostname
+
 2. puppet:///files/hosts/$fqdn
+
 3. puppet:///files/domains/$domain
+
 4. puppet:///files/global/
+
 5. undef
+
 
 If there is a file installed through your packet manager and no other file is found in 1 - 4, the last one ensures,
 that your file will be not deleted.
