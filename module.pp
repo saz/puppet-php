@@ -1,4 +1,3 @@
-# TODO: Install new modules
 define php::module($require = undef) {
     include php
 
@@ -21,12 +20,13 @@ define php::module($require = undef) {
     }
 
     file { "${name}.ini":
-        path   => "${php::params::conf_dir}${name}.ini",
-        mode   => 644,
-        owner  => root,
-        group  => root,
-        ensure => present,
-        source => [
+        path    => "${php::params::conf_dir}${name}.ini",
+        mode    => 644,
+        owner   => root,
+        group   => root,
+        ensure  => present,
+        require => Class["php::config"],
+        source  => [
             "puppet:///files/hosts/${hostname}/php/conf.d/${name}.ini",
             "puppet:///files/hosts/${fqdn}/php/conf.d/${name}.ini",
             "puppet:///files/domains/${domain}/php/conf.d/${name}.ini",
