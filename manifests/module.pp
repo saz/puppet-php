@@ -1,4 +1,4 @@
-define php::module($require = undef) {
+define php::module($source = undef, $content = undef, $require = undef) {
     include php
 
     if defined(Class["php::apache2"]) {
@@ -25,13 +25,11 @@ define php::module($require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
-        require => Class["php::config"],
-        source  => [
-            "puppet:///files/hosts/${hostname}/php/conf.d/${name}.ini",
-            "puppet:///files/hosts/${fqdn}/php/conf.d/${name}.ini",
-            "puppet:///files/domains/${domain}/php/conf.d/${name}.ini",
-            "puppet:///files/global/php/conf.d/${name}.ini",
-            undef,
+        content => $content,
+        source  => $source,
+        require => [
+            Class["php::config"],
+            Package["php-${name}"],
         ],
     }
 }
