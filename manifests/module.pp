@@ -10,7 +10,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         require => $require,
     }
 
-    if $$php::params::service_notify {
+    if $php::params::service_notify {
         Package["php-${name}"] {
             notify => $php::params::service_notify,
         }
