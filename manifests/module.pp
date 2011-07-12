@@ -24,7 +24,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         },
         content => $content ? {
             undef   => undef,
-            default => template("${content}${name}.ini.erb")
+            default => template("${content}${name}.ini.erb"),
         },
         require => [
             Class["php::config"],
