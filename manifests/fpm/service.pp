@@ -4,6 +4,6 @@ class php::fpm::service {
         hasstatus  => true,
         hasrestart => true,
         enable     => true,
-        require    => Class["php::fpm::install"],
+        require    => Class["php::fpm::config"],
     }
 }
