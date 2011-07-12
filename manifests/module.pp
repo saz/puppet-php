@@ -17,11 +17,14 @@ define php::module($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
-        content => $content,
         notify  => $php::params::notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
+        },
+        content => $content ? {
+            undef   => undef,
+            default => template("${content}${name}.ini.erb")
         },
         require => [
             Class["php::config"],
