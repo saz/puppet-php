@@ -36,7 +36,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         ],
     }
 
-    if $$php::params::service_notify {
+    if $php::params::service_notify {
         File["${name}.ini"] {
             notify => $php::params::service_notify,
         }
