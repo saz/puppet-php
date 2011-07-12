@@ -26,7 +26,10 @@ define php::module($source = undef, $content = undef, $require = undef) {
         group   => root,
         ensure  => present,
         content => $content,
-        source  => $source,
+        source  => $source ? {
+            undef   => undef,
+            default => "${source}${name}.ini",
+        },
         require => [
             Class["php::config"],
             Package["php-${name}"],
