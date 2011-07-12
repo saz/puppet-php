@@ -20,18 +20,4 @@ class php::params {
             $apache_service_name = "apache2"
         }
     }
-
-    if defined(Class["php::apache2"]) {
-        $apache_notify = [ Class["php::apache2::service"] ]
-    } else {
-        $apache_notify = undef
-    }
-
-    if defined(Class["php::fpm"]) {
-        $fpm_notify = [ Class["php::fpm::service"] ]
-    } else {
-        $fpm_notify = undef
-    }
-
-    $service_notify = [ $apache_notify, $fpm_notify, ]
 }

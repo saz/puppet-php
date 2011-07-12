@@ -12,7 +12,6 @@ define php::conf($source = undef, $content = undef, $require = undef) {
             Class["php::config"],
             $require,
         ],
-        notify  => $php::params::service_notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
@@ -22,4 +21,8 @@ define php::conf($source = undef, $content = undef, $require = undef) {
             default => template("${content}${name}.ini.erb"),
         },
     }
+
+    # Subscribe to services
+    File[${name}] ~> Class["php::fpm::service"]
+    File[${name}] ~> Service["apache"]
 }

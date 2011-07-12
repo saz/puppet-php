@@ -1,6 +1,8 @@
 define php::module($source = undef, $content = undef, $require = undef) {
     include php
 
+    $file_name = "${name}.ini"
+
     package { "php-${name}":
         name => $operatingsystem ? {
             /(Ubuntu|Debian)/ => "php5-${name}",
@@ -10,25 +12,19 @@ define php::module($source = undef, $content = undef, $require = undef) {
         require => $require,
     }
 
-    if $php::params::service_notify {
-        Package["php-${name}"] {
-            notify => $php::params::service_notify,
-        }
-    }
-
-    file { "${name}.ini":
-        path    => "${php::params::conf_dir}${name}.ini",
+    file { $file_name:
+        path    => "${php::params::conf_dir}${file_name}",
         mode    => 644,
         owner   => root,
         group   => root,
         ensure  => present,
         source  => $source ? {
             undef   => undef,
-            default => "${source}${name}.ini",
+            default => "${source}${file_name}",
         },
         content => $content ? {
             undef   => undef,
-            default => template("${content}${name}.ini.erb"),
+            default => template("${content}${file_name}.erb"),
         },
         require => [
             Class["php::config"],
@@ -36,9 +32,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         ],
     }
 
-    if $php::params::service_notify {
-        File["${name}.ini"] {
-            notify => $php::params::service_notify,
-        }
-    }
+    # Subscribe to services
+    File[$file_name] ~> Class["php::fpm::service"]
+    File[$file_name] ~> Service["apache"]
 }
