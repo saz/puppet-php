@@ -1,5 +1,5 @@
 class php::fpm::install {
-    package { $php::fpm::params::package_name:
+    package { $php::params::fpm_package_name:
         ensure => present,
     }
 }
