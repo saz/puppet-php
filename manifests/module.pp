@@ -7,8 +7,13 @@ define php::module($source = undef, $content = undef, $require = undef) {
             default           => "php-${name}",
         },
         ensure  => present,
-        notify  => $php::params::service_notify,
         require => $require,
+    }
+
+    if $$php::params::service_notify {
+        Package["php-${name}"] {
+            notify => $php::params::service_notify,
+        }
     }
 
     file { "${name}.ini":
@@ -17,7 +22,6 @@ define php::module($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
-        notify  => $php::params::service_notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
@@ -30,5 +34,11 @@ define php::module($source = undef, $content = undef, $require = undef) {
             Class["php::config"],
             Package["php-${name}"],
         ],
+    }
+
+    if $$php::params::service_notify {
+        File["${name}.ini"] {
+            notify => $php::params::service_notify,
+        }
     }
 }
