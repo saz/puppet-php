@@ -12,7 +12,7 @@ define php::conf($source = undef, $content = undef, $require = undef) {
             Class["php::config"],
             $require,
         ],
-        notify  => $php::params::notify,
+        notify  => $php::params::service_notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",

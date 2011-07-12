@@ -7,7 +7,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
             default           => "php-${name}",
         },
         ensure  => present,
-        notify  => $php::params::notify,
+        notify  => $php::params::service_notify,
         require => $require,
     }
 
@@ -17,7 +17,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
-        notify  => $php::params::notify,
+        notify  => $php::params::service_notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
