@@ -9,6 +9,7 @@ define php::conf($source = undef, $content = undef) {
         group   => root,
         ensure  => present,
         require => Class["php::config"],
+        notify  => $php::params::notify,
         source  => $source,
         content => $content,
     }

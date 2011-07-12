@@ -9,4 +9,14 @@ class php::params {
             $conf_dir = "${base_dir}conf.d/"
         }
     }
+
+    # Build list of services to notify
+    if defined(Class["php::apache2"]) {
+        $notify += Class["php::apache2::service"]
+    }
+
+    if defined(Class["php::fpm"]) {
+        $notify += Class["php::fpm::service"]
+    }
+
 }

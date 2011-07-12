@@ -1,21 +1,13 @@
 define php::module($source = undef, $content = undef, $require = undef) {
     include php
 
-    if defined(Class["php::apache2"]) {
-        $notify += Class["php::apache2::service"]
-    }
-
-    if defined(Class["php::fpm"]) {
-        $notify += Class["php::fpm::service"]
-    }
-
     package { "php-${name}":
         name => $operatingsystem ? {
             /(Ubuntu|Debian)/ => "php5-${name}",
             default           => "php-${name}",
         },
         ensure  => present,
-        notify  => $notify,
+        notify  => $php::params::notify,
         require => $require,
     }
 
@@ -26,6 +18,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         group   => root,
         ensure  => present,
         content => $content,
+        notify  => $php::params::notify
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
