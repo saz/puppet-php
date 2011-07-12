@@ -5,7 +5,7 @@ define php::conf($source = undef, $content = undef) {
     file { "${name}":
         path    => "${php::params::conf_dir}${name}.ini",
         mode    => 644,
-        user    => root,
+        owner   => root,
         group   => root,
         ensure  => present,
         require => Class["php::config"],
