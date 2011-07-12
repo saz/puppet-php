@@ -24,12 +24,7 @@ class php::config {
         group   => root,
         require => Class["php::install"],
         ensure  => file,
-        source  => [
-            "puppet:///files/hosts/${hostname}/php/cli_php.ini",
-            "puppet:///files/hosts/${fqdn}/php/cli_php.ini",
-            "puppet:///files/domains/${domain}/php/cli_php.ini",
-            "puppet:///files/global/php/cli_php.ini",
-            undef,
-        ],
+        content => $php::cli_ini_content, 
+        source  => $php::cli_ini_source,
     }
 }
