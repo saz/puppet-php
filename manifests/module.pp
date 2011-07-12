@@ -18,7 +18,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         group   => root,
         ensure  => present,
         content => $content,
-        notify  => $php::params::notify
+        notify  => $php::params::notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${name}.ini",
