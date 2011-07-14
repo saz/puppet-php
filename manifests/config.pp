@@ -41,5 +41,4 @@ class php::config {
     file { "${php::params::cli_dir}conf.d":
         ensure => "../conf.d",
     }
-
 }
