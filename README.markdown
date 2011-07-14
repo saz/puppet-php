@@ -67,10 +67,10 @@ source => 'puppet:///files/php/conf.d/'
 Real source value: 'puppet:///files/php/conf.d/xdebug.ini'
 
 This enables you to use the following:
-```php::module { [ "xdebug", "suhosin", ]:
-    source  => "puppet:///files/php/conf.d/",
-    require => Apt::Sources_list["kwick-php53"],
-    notify      => Class["php::fpm::service"],
+```php::module { [ "xdebug", "suhosin", ]:  
+    source  => "puppet:///files/php/conf.d/",  
+    require => Apt::Sources_list["kwick-php53"],  
+    notify      => Class["php::fpm::service"],  
 }```
 
 ### 3. Use a template
@@ -80,7 +80,7 @@ For more informations, see EXAMPLE
 
 
 ## Service Notification
-You can set which services to notify by setting 'notify =>' on every resource.
+You can define which services to notify by setting 'notify =>' on every resource.
 You're able to use a module, which will trigger a notify of apache, but not of fpm.
 Or no notify at all, because you're using this module only in CLI.
 
