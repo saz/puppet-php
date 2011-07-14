@@ -79,6 +79,7 @@ source => 'puppet:///files/php/conf.d/'
 Real source value: 'puppet:///files/php/conf.d/xdebug.ini'
 
 This enables you to use the following:
+
 ```
 	php::module { [ "xdebug", "suhosin", ]:
 		source  => "puppet:///files/php/conf.d/",
