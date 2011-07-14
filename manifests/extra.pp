@@ -1,4 +1,4 @@
-define php::extra($source = undef, $content = undef, $require = undef) {
+define php::extra($source = undef, $content = undef, $require = undef, $notify = undef) {
     # Puppet will bail out if both source and content is set,
     # hence we don't have to deal with it.
 
@@ -8,6 +8,7 @@ define php::extra($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
+        notify  => $notify,
         require => [
             Class["php::config"],
             $require,

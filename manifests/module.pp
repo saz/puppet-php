@@ -1,4 +1,4 @@
-define php::module($source = undef, $content = undef, $require = undef) {
+define php::module($source = undef, $content = undef, $require = undef, $notify = undef) {
     include php
 
     $file_name = "${name}.ini"
@@ -18,6 +18,7 @@ define php::module($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
+        notify  => $notify,
         source  => $source ? {
             undef   => undef,
             default => "${source}${file_name}",
@@ -31,8 +32,4 @@ define php::module($source = undef, $content = undef, $require = undef) {
             Package["php-${name}"],
         ],
     }
-
-    # Subscribe to services
-    File[$file_name] ~> Class["php::fpm::service"]
-    File[$file_name] ~> Service["apache"]
 }

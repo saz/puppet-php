@@ -1,4 +1,4 @@
-define php::conf($source = undef, $content = undef, $require = undef) {
+define php::conf($source = undef, $content = undef, $require = undef, $notify = undef) {
     include php
 
     $file_name = "${name}.ini"
@@ -11,6 +11,7 @@ define php::conf($source = undef, $content = undef, $require = undef) {
         owner   => root,
         group   => root,
         ensure  => present,
+        notify  => $notify,
         require => [
             Class["php::config"],
             $require,
@@ -24,8 +25,4 @@ define php::conf($source = undef, $content = undef, $require = undef) {
             default => template("${content}${file_name}.erb"),
         },
     }
-
-    # Subscribe to services
-    File[$file_name] ~> Class["php::fpm::service"]
-    File[$file_name] ~> Service["apache"]
 }
