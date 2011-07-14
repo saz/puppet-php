@@ -6,7 +6,7 @@ You can manage the CLI, Apache and FPM version of PHP.
 ## How to use
 
 ### CLI
-```include php```
+	include php
 
 ### Apache
 ```include php::apache2```
