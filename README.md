@@ -9,18 +9,22 @@ You can manage the CLI, Apache and FPM version of PHP.
 	include php
 
 ### Apache
-```include php::apache2```
+	include php::apache2
 
 ### FPM
-```include php::fpm```
+	include php::fpm
 
 ### Install additional modules and use the config from package
-```php::module { "snmp": 
-    notify  => [ Class["php::fpm::service"], Service["apache"], ],
-}```
+```
+	php::module { "snmp": 
+		notify  => [ Class["php::fpm::service"], Service["apache"], ],
+	}
+```
 
 This will install the PHP SNMP module and notifies FPM and Apache about the change.
-You're also able to set ```require => Foo["Bar"]``` if you need anything else, like sources lists before.
+You're also able to set
+	require => Foo["Bar"]
+if you need anything else, like sources lists before.
 
 ### Install a module and use a file from puppet server for the config
 ```php::module { "snmp":
