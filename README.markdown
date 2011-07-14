@@ -67,11 +67,13 @@ source => 'puppet:///files/php/conf.d/'
 Real source value: 'puppet:///files/php/conf.d/xdebug.ini'
 
 This enables you to use the following:
-```php::module { [ "xdebug", "suhosin", ]:  
-    source  => "puppet:///files/php/conf.d/",  
-    require => Apt::Sources_list["kwick-php53"],  
-    notify      => Class["php::fpm::service"],  
-}```
+```
+php::module { [ "xdebug", "suhosin", ]:
+    source  => "puppet:///files/php/conf.d/",
+    require => Apt::Sources_list["kwick-php53"],
+    notify      => Class["php::fpm::service"],
+}
+```
 
 ### 3. Use a template
 The same as in 2. is valid.
