@@ -27,10 +27,12 @@ You're also able to set
 if you need anything else, like sources lists before.
 
 ### Install a module and use a file from puppet server for the config
-```php::module { "snmp":
-    source => "puppet:///files/php/conf.d/",
-    notify => Class["php::fpm::service"],
-}```
+```
+    php::module { "snmp":
+        source => "puppet:///files/php/conf.d/",
+        notify => Class["php::fpm::service"],
+    }
+```
 
 ### Install a module and use a template for the config
 ```php::module { "snmp":
