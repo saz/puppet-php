@@ -16,8 +16,4 @@ define php::extra($source = undef, $content = undef, $require = undef, $notify =
         source  => $source,
         content => $content,
     }
-
-    # Subscribe to services
-    File[$name] ~> Class["php::fpm::service"]
-    File[$name] ~> Service["apache"]
 }
