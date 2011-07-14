@@ -1,16 +1,28 @@
 class php::apache2::config {
+    file { $php::params::apache_dir:
+        owner   => root,
+        group   => root,
+        purge   => true,
+        recurse => true,
+        force   => true,
+        require => Package["apache"],
+        notify  => Service["apache"],
+        ensure  => directory,
+    }
+
+    file { "${php::params::apache_dir}conf.d":
+        ensure  => "../conf.d",
+        require => File[$php::params::apache_dir],
+        notify  => Service["apache"],
+    }
+
     file { $php::apache2::params::apache_ini:
         owner   => root,
         group   => root,
-        require => Class["php::apache2::install"],
-        notify  => Class["php::apache2::service"],
+        require => Package["apache"],
+        notify  => Service["apache"],
+        content => $php::apache2::apache2_ini_content,
+        source  => $php::apache2::apache2_ini_source,
         ensure  => file,
-        source  => [
-            "puppet:///files/hosts/${hostname}/php/apache2_php.ini",
-            "puppet:///files/hosts/${fqdn}/php/apache2_php.ini",
-            "puppet:///files/domains/${domain}/php/apache2_php.ini",
-            "puppet:///files/global/php/apache2_php.ini",
-            undef,
-        ],
     }
 }
