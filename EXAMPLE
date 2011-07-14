@@ -1,0 +1,41 @@
+    php::module {   [ "gearman", "curl", "gd", "gmagick", "igbinary",
+                    "inotify", "mcrypt", "memcached", "mogilefs", "mysql",
+                    "pecl-http", "proctitle", "tidy", "xhprof",
+                    ]:
+        require => Apt::Sources_list["kwick-php53"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::module { [ "xdebug", "suhosin", ]:
+        source  => "puppet:///files/php/conf.d/",
+        require => Apt::Sources_list["kwick-php53"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::module { "xcache":
+        content => "php/conf.d/",
+        require => Apt::Sources_list["kwick-php53"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::conf { [ "global", "browscap", ]:
+        source  => "puppet:///files/php/conf.d/",
+        require => Class["php"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::conf { [ "mysqli", "pdo", "pdo_mysql", ]:
+        require => Package["php-mysql"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::extra { "lite_php_browscap":
+        source  => "puppet:///files/php/extra/lite_php_browscap.ini",
+        require => Php::Conf["browscap"],
+        notify  => Class["php::fpm::service"],
+    }
+
+    php::fpm::pool { "jaumo":
+        source  => "puppet:///files/php/fpm/pool.d/",
+        require => Apt::Sources_list["kwick-php53"],
+    }
