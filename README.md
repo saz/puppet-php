@@ -35,22 +35,28 @@ if you need anything else, like sources lists before.
 ```
 
 ### Install a module and use a template for the config
-```php::module { "snmp":
-    content => "php/conf.d/",
-    notify  => Service["apache"],
-}```
+```
+    php::module { "snmp":
+        content => "php/conf.d/",
+        notify  => Service["apache"],
+    }
+```
 
 ### Additional config snippets
-```php::conf { "global":
-    source => "puppet:///files/php/global.ini",
-}```
+```
+    php::conf { "global":
+        source => "puppet:///files/php/global.ini",
+    }
+```
 
 ### Extra config (e.g. browscap)
-```php::extra { "lite_php_browscap":
-    source  => "puppet:///files/php/extra/lite_php_browscap.ini",
-    require => Php::Conf["browscap"],
-    notify  => Class["php::fpm::service"],
-}```
+```
+    php::extra { "lite_php_browscap":
+        source  => "puppet:///files/php/extra/lite_php_browscap.ini",
+        require => Php::Conf["browscap"],
+        notify  => Class["php::fpm::service"],
+    }
+```
 
 ## Config files
 If a module needs some configuration, you have 3 different options to place this file on the target system.
@@ -74,11 +80,11 @@ Real source value: 'puppet:///files/php/conf.d/xdebug.ini'
 
 This enables you to use the following:
 ```
-php::module { [ "xdebug", "suhosin", ]:
-    source  => "puppet:///files/php/conf.d/",
-    require => Apt::Sources_list["kwick-php53"],
-    notify      => Class["php::fpm::service"],
-}
+    php::module { [ "xdebug", "suhosin", ]:
+        source  => "puppet:///files/php/conf.d/",
+        require => Apt::Sources_list["kwick-php53"],
+        notify      => Class["php::fpm::service"],
+    }
 ```
 
 ### 3. Use a template
