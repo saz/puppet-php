@@ -22,7 +22,7 @@ You can manage the CLI, Apache and FPM version of PHP.
 ```
 
 This will install the PHP SNMP module and notifies FPM and Apache about the change.
-You're also able to set
+You are also able to set
 	require => Foo["Bar"]
 if you need anything else, like sources lists before.
 
@@ -68,7 +68,7 @@ If a module needs some configuration, you have 3 different options to place this
 3. Use a template
 
 ### 1. Config inside package
-There is nothing special. Just use php::module, php:conf or php:extra and don't specify a source or content.
+There is nothing special. Just use php::module, php:conf or php:extra and do not specify a source or content.
 
 ### 2. File from puppet fileserver
 The parameter for 'source =>' must be a directory with a trailing slash. The file must be named after the resource.
@@ -83,7 +83,7 @@ This enables you to use the following:
     php::module { [ "xdebug", "suhosin", ]:
         source  => "puppet:///files/php/conf.d/",
         require => Apt::Sources_list["kwick-php53"],
-        notify      => Class["php::fpm::service"],
+        notify  => Class["php::fpm::service"],
     }
 ```
 
@@ -95,8 +95,8 @@ For more informations, see EXAMPLE
 
 ## Service Notification
 You can define which services to notify by setting 'notify =>' on every resource.
-You're able to use a module, which will trigger a notify of apache, but not of fpm.
-Or no notify at all, because you're using this module only in CLI.
+You are able to use a module, which will trigger a notify of apache, but not of fpm.
+Or no notify at all, because you are using this module only in CLI.
 
 ## Requirements
 * php::apache2 requires apache module
