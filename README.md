@@ -107,6 +107,6 @@ Or no notify at all, because you are using this module only in CLI.
 
 
 ## TODO
-* Manage FPM configuration (pools, global settings)
+* Manage FPM configuration (global settings)
 * Test php::apache2, everything else should work
 * Document the usage of php::fpm::pool
