@@ -28,7 +28,7 @@ define php::module($source = undef, $content = undef, $require = undef, $notify 
             default => template("${content}${file_name}.erb"),
         },
         require => [
-            Class["php::config"],
+            Class["php"],
             Package["php-${name}"],
         ],
     }

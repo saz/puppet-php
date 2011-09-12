@@ -13,7 +13,7 @@ define php::conf($source = undef, $content = undef, $require = undef, $notify = 
         ensure  => present,
         notify  => $notify,
         require => [
-            Class["php::config"],
+            Class["php"],
             $require,
         ],
         source  => $source ? {
