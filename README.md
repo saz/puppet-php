@@ -16,6 +16,8 @@ You can manage the CLI, Apache and FPM version of PHP.
 
 *php::apache2* and *php::fpm* will include php automatically.
 
+
+
 ### Installing PHP modules
 
 The easiest way of installing additional PHP modules is using packages
@@ -75,6 +77,7 @@ In this directory, place files named *module.ini*.
 **Do not forget to add a trailing slash!**
 
 
+
 Sometimes you may need to use a template instead of a file.
 
 ```
@@ -90,6 +93,7 @@ The only difference is, that, at the moment, only one template per module will b
 Place your templates inside your template directory and name them 'module.ini.erb'
 
 
+
 ### Additional configuration settings
 
 You can place additional configuration files in the 'conf.d' directory as follows:
@@ -101,6 +105,7 @@ You can place additional configuration files in the 'conf.d' directory as follow
 ```
 
 The same source fetching rules applies as in the 'modules' section.
+
 
 
 ### Extra configuration files
@@ -131,14 +136,17 @@ Again, the same source fetching rules applies as in the 'modules' section.
 For more informations, see EXAMPLE
 
 
+
 ### Service Notification
 On every resource, you can define, what other service should be notified.
 If you run PHP within Apache, you want to notify Apache of any changes or
 FPM should be notified and restarted to make the new configuration work.
 
 
+
 ### Requirements
 * php::apache2 requires *apache* module
+
 
 
 ### TODO
