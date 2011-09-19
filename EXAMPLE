@@ -1,41 +1,44 @@
-    php::module {   [ "gearman", "curl", "gd", "gmagick", "igbinary",
-                    "inotify", "mcrypt", "memcached", "mogilefs", "mysql",
-                    "pecl-http", "proctitle", "tidy", "xhprof",
-                    ]:
-        require => Apt::Sources_list["kwick-php53"],
-        notify  => Class["php::fpm::service"],
+class my_php {
+    php::module { [
+        'gearman', 'curl', 'gd', 'gmagick', 'igbinary',
+        'inotify', 'mcrypt', 'memcached', 'mogilefs', 'mysql',
+        'pecl-http', 'proctitle', 'tidy', 'xhprof', 'intl', 'imap',
+        'oauth', 'sphinx',
+        ]:
+        require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Service['apache'],
     }
 
-    php::module { [ "xdebug", "suhosin", ]:
-        source  => "puppet:///files/php/conf.d/",
-        require => Apt::Sources_list["kwick-php53"],
-        notify  => Class["php::fpm::service"],
+    php::module { 'redis':
+        ensure => absent,
     }
 
-    php::module { "xcache":
-        content => "php/conf.d/",
-        require => Apt::Sources_list["kwick-php53"],
-        notify  => Class["php::fpm::service"],
+    php::module { 'xcache':
+        content => 'global/etc/php5/conf.d/',
+        require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Service['apache'],
     }
 
-    php::conf { [ "global", "browscap", ]:
-        source  => "puppet:///files/php/conf.d/",
-        require => Class["php"],
-        notify  => Class["php::fpm::service"],
+    php::module { [ 'suhosin', 'xdebug', ]:
+        require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Service['apache'],
+        source  => true,
     }
 
-    php::conf { [ "mysqli", "pdo", "pdo_mysql", ]:
-        require => Package["php-mysql"],
-        notify  => Class["php::fpm::service"],
+    php::conf { [ 'browscap', 'global', ]:
+        require => Apt::Sources_list['dotdeb-php53'],
+        notify  => Service['apache'],
+        source  => true,
     }
 
-    php::extra { "lite_php_browscap":
-        source  => "puppet:///files/php/extra/lite_php_browscap.ini",
-        require => Php::Conf["browscap"],
-        notify  => Class["php::fpm::service"],
+    php::conf { [ 'mysqli', 'pdo', 'pdo_mysql', ]:
+        require => Package['php-mysql'],
+        notify  => Service['apache'],
     }
 
-    php::fpm::pool { "jaumo":
-        source  => "puppet:///files/php/fpm/pool.d/",
-        require => Apt::Sources_list["kwick-php53"],
+    php::extra { 'lite_php_browscap':
+        require => Php::Conf['browscap'],
+        notify  => Service['apache'],
+        source  => true,
     }
+}
