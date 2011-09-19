@@ -29,10 +29,23 @@ if you need anything else, like sources lists before.
 ### Install a module and use a file from puppet server for the config
 ```
     php::module { "snmp":
-        source => "puppet:///files/php/conf.d/",
+        source => true,
         notify => Class["php::fpm::service"],
     }
 ```
+
+`source => true` will fetch a file from four different locations:
+* fqdn
+* hostgroup
+* domain
+* global
+
+If a file is found, none of the other sources will be used.
+
+You can set a different file location as follows:
+`source => 'puppet:///files/another/path/to/directory/'`
+Module name + '.ini' will be appended automatically.
+
 
 ### Install a module and use a template for the config
 ```

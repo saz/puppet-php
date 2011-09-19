@@ -1,4 +1,4 @@
-define php::conf($source = undef, $content = undef, $require = undef, $notify = undef) {
+define php::conf($ensure = present, $source = undef, $content = undef, $require = undef, $notify = undef) {
     include php
 
     $file_name = "${name}.ini"
@@ -10,7 +10,7 @@ define php::conf($source = undef, $content = undef, $require = undef, $notify = 
         mode    => 644,
         owner   => root,
         group   => root,
-        ensure  => present,
+        ensure  => $ensure,
         notify  => $notify,
         require => [
             Class["php"],
@@ -18,6 +18,12 @@ define php::conf($source = undef, $content = undef, $require = undef, $notify = 
         ],
         source  => $source ? {
             undef   => undef,
+            true    => [
+                "puppet:///files/${fqdn}/etc/php5/conf.d/${file_name}",
+                "puppet:///files/${hostgroup}/etc/php5/conf.d/${file_name}",
+                "puppet:///files/${domain}/etc/php5/conf.d/${file_name}",
+                "puppet:///files/global/etc/php5/conf.d/${file_name}",
+            ],
             default => "${source}${file_name}",
         },
         content => $content ? {
