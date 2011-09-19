@@ -5,121 +5,135 @@ You can manage the CLI, Apache and FPM version of PHP.
 
 ## How to use
 
-### CLI
+#### CLI
 	include php
 
-### Apache
+#### Apache
 	include php::apache2
 
-### FPM
+#### FPM
 	include php::fpm
 
-### Install additional modules and use the config from package
+*php::apache2* and *php::fpm* will include php automatically.
+
+### Installing PHP modules
+
+The easiest way of installing additional PHP modules is using packages
+from your distribution and the bundled configuration files.
+
 ```
-	php::module { "snmp": 
-		notify  => [ Class["php::fpm::service"], Service["apache"], ],
+	php::module { 'snmp': 
+		notify => [ Class['php::fpm::service'], Service['apache'], ],
 	}
 ```
 
-This will install the PHP SNMP module and notifies FPM and Apache about the change.
-You are also able to set
-	require => Foo["Bar"]
-if you need anything else, like sources lists before.
+Multiple modules are possible, too.
 
-### Install a module and use a file from puppet server for the config
 ```
-    php::module { "snmp":
+    php::module { ['snmp', 'xdebug', ]:
+        notify => Class['php::fpm::service'],
+    }
+```
+
+Sometimes, modules require some custom configuration settings and you
+want to retrieve a file from the server.
+
+```
+    php::module { 'snmp':
         source => true,
-        notify => Class["php::fpm::service"],
+        notify => Class['php::fpm::service'],
     }
 ```
 
-`source => true` will fetch a file from four different locations:
-* fqdn
-* hostgroup
-* domain
-* global
+At first, this looks a bit strange. If you set `source` to `true`,
+a file will be fetched from multiple sources:
 
-If a file is found, none of the other sources will be used.
+1. 'puppet:///files/$fqdn/etc/php5/conf.d/module.ini'
+2. 'puppet:///files/$hostgroup/etc/php5/conf.d/module.ini'
+3. 'puppet:///files/$domain/etc/php5/conf.d/module.ini'
+4. 'puppet:///files/global/etc/php5/conf.d/module.ini'
 
-You can set a different file location as follows:
-`source => 'puppet:///files/another/path/to/directory/'`
-Module name + '.ini' will be appended automatically.
+The first source that exists will be used.
+This makes it quite easy to have different files for different systems without
+duplicating to much of your puppet definition.
 
+This is even possible, if you manage multiple modules!
 
-### Install a module and use a template for the config
+But if you really need to set a different source, this is possible, too.
+
 ```
-    php::module { "snmp":
-        content => "php/conf.d/",
-        notify  => Service["apache"],
+    php::module { 'snmp':
+        source => 'puppet:///files/different/path/to/the/file/',
+        notify => Class['php::fpm::service'],
     }
 ```
 
-### Additional config snippets
+To make it still possible, to have multiple modules, this should point to a directory.
+In this directory, place files named *module.ini*.
+
+**Do not forget to add a trailing slash!**
+
+Sometimes you may need to use a template instead of a file.
+
+```
+    php::module { 'snmp':
+        content => 'php5/conf.d/',
+        notify  => Class['php::fpm::service'],
+    }
+```
+
+You can define multiple modules, excactly like before with sources.
+The only difference is, that, at the moment, only one template per module will be used.
+
+### Additional configuration settings
+
+You can place additional configuration files in the 'conf.d' directory as follows:
+
 ```
     php::conf { "global":
         source => "puppet:///files/php/global.ini",
     }
 ```
 
-### Extra config (e.g. browscap)
+The same source fetching rules applies as in the 'modules' section.
+
+### Extra configuration files
+
+Those configuration files will be placed inside an 'extras' directory in your configuration root.
+This is to make sure, that those configuration files are not parsed by PHP by default.
+
 ```
-    php::extra { "lite_php_browscap":
-        source  => "puppet:///files/php/extra/lite_php_browscap.ini",
-        require => Php::Conf["browscap"],
-        notify  => Class["php::fpm::service"],
+    php::extra { 'lite_php_browscap':
+        source  => 'puppet:///files/php5/extra/lite_php_browscap.ini',
+        require => Php::Conf['browscap'],
+        notify  => Class['php::fpm::service'],
     }
 ```
 
-## Config files
-If a module needs some configuration, you have 3 different options to place this file on the target system.
-
-1. Config comes with the package: Puppet should leave the file as-is
-
-2. Copy a file from the puppet fileserver to the target system
-
-3. Use a template
-
-### 1. Config inside package
-There is nothing special. Just use php::module, php:conf or php:extra and do not specify a source or content.
-
-### 2. File from puppet fileserver
-The parameter for 'source =>' must be a directory with a trailing slash. The file must be named after the resource.
-
-Example:
-php::module['xdebug']
-source => 'puppet:///files/php/conf.d/'
-Real source value: 'puppet:///files/php/conf.d/xdebug.ini'
-
-This enables you to use the following:
+You can use a template, too:
 
 ```
-	php::module { [ "xdebug", "suhosin", ]:
-		source  => "puppet:///files/php/conf.d/",
-		require => Apt::Sources_list["kwick-php53"],
-		notify  => Class["php::fpm::service"],
-	}
+    php::extra { 'lite_php_browscap':
+        content => 'php5/conf.d/',
+        require => Php::Conf['browscap'],
+        notify  => Class['php::fpm::service'],
+    }
 ```
 
-### 3. Use a template
-The same as in 2. is valid.
+Again, the same source fetching rules applies as in the 'modules' section.
 
 For more informations, see EXAMPLE
 
 
-## Service Notification
-You can define which services to notify by setting 'notify =>' on every resource.
-You are able to use a module, which will trigger a notify of apache, but not of fpm.
-Or no notify at all, because you are using this module only in CLI.
+### Service Notification
+On every resource, you can define, what other service should be notified.
+If you run PHP within Apache, you want to notify Apache of any changes or
+FPM should be notified and restarted to make the new configuration work.
 
-## Requirements
-* php::apache2 requires apache module
-
-## Notes
-* php::apache2 and php::fpm both install CLI version
+### Requirements
+* php::apache2 requires *apache* module
 
 
-## TODO
+### TODO
 * Manage FPM configuration (global settings)
-* Test php::apache2, everything else should work
 * Document the usage of php::fpm::pool
