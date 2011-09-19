@@ -55,9 +55,10 @@ a file will be fetched from multiple sources:
 
 The first source that exists will be used.
 This makes it quite easy to have different files for different systems without
-duplicating to much of your puppet definition.
+duplicating any of your definitions.
 
 This is even possible, if you manage multiple modules!
+
 
 But if you really need to set a different source, this is possible, too.
 
@@ -73,6 +74,7 @@ In this directory, place files named *module.ini*.
 
 **Do not forget to add a trailing slash!**
 
+
 Sometimes you may need to use a template instead of a file.
 
 ```
@@ -85,6 +87,9 @@ Sometimes you may need to use a template instead of a file.
 You can define multiple modules, excactly like before with sources.
 The only difference is, that, at the moment, only one template per module will be used.
 
+Place your templates inside your template directory and name them 'module.ini.erb'
+
+
 ### Additional configuration settings
 
 You can place additional configuration files in the 'conf.d' directory as follows:
@@ -96,6 +101,7 @@ You can place additional configuration files in the 'conf.d' directory as follow
 ```
 
 The same source fetching rules applies as in the 'modules' section.
+
 
 ### Extra configuration files
 
@@ -129,6 +135,7 @@ For more informations, see EXAMPLE
 On every resource, you can define, what other service should be notified.
 If you run PHP within Apache, you want to notify Apache of any changes or
 FPM should be notified and restarted to make the new configuration work.
+
 
 ### Requirements
 * php::apache2 requires *apache* module
