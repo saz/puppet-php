@@ -12,10 +12,10 @@ define php::conf($ensure = present, $source = undef, $content = undef, $require 
         group   => root,
         ensure  => $ensure,
         notify  => $notify,
-        require => [
-            Class["php"],
-            $require,
-        ],
+        require => $require ? {
+            undef   => Class['php'],
+            default => [ Class['php'], $require, ],
+        },
         source  => $source ? {
             undef   => undef,
             true    => [
