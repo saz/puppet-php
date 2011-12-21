@@ -1,3 +1,4 @@
+# Apache example
 class my_php {
     php::module { [
         'gearman', 'curl', 'gd', 'gmagick', 'igbinary',
@@ -40,5 +41,23 @@ class my_php {
         require => Php::Conf['browscap'],
         notify  => Service['apache'],
         source  => true,
+    }
+}
+
+
+# FPM example
+class my_fpm_php {
+    php::module { [ 'curl', 'gd', 'mcrypt', 'mysql', 'suhosin', ]:
+        notify => Class['php::fpm::service'],
+    }
+
+    php::module { [ 'memcache', 'apc', ]:
+        notify => Class['php::fpm::service'],
+        source => true,
+    }
+
+    # Add a pool definition
+    php::fpm::pool { 'my_pool':
+        source => 'puppet:///files/path/to/your/pool',
     }
 }
