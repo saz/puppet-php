@@ -1,5 +1,5 @@
 name    'saz-php'
-version '1.0.0'
+version '1.0.1'
 source 'UNKNOWN'
 author 'saz'
 license 'Apache License, Version 2.0'
