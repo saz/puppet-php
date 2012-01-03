@@ -1,13 +1,10 @@
-define php::module($ensure = present, $source = undef, $content = undef, $require = undef, $notify = undef) {
+define php::module($ensure = present, $source = undef, $content = undef, $require = undef, $notify = undef, $package_prefix = 'php5-') {
     include php
 
     $file_name = "${name}.ini"
 
     package { "php-${name}":
-        name => $operatingsystem ? {
-            /(Ubuntu|Debian)/ => "php5-${name}",
-            default           => "php-${name}",
-        },
+        name => "${package_prefix}${name}",
         ensure  => $ensure,
         require => $require,
     }
