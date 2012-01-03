@@ -1,7 +1,6 @@
 class php::params {
     case $operatingsystem {
         /(Ubuntu|Debian)/: {
-            $package_name = "php5-cli"
             $base_dir = "/etc/php5/"
             $cli_dir = "${base_dir}cli/"
             $cli_ini = "${cli_dir}php.ini"
