@@ -3,10 +3,16 @@ define php::module($ensure = present, $source = undef, $content = undef, $requir
 
     $file_name = "${name}.ini"
 
+    if $require {
+      $real_require = [ Class['php::install'], $require, ]
+    } else {
+      $real_require = Class['php::install']
+    }
+
     package { "php-${name}":
         name => "${package_prefix}${name}",
         ensure  => $ensure,
-        require => $require,
+        require => $real_require,
     }
 
     file { $file_name:
