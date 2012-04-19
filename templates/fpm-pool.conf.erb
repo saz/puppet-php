@@ -393,6 +393,11 @@ chdir = /
 ;env[TMP] = /tmp
 ;env[TMPDIR] = /tmp
 ;env[TEMP] = /tmp
+<% if @env_settings -%>
+    <% env_settings.each do |env_setting| -%>
+<%= env_setting %>
+    <% end -%>
+<% end -%>
 
 <% if @php_settings -%>
 ; Additional php.ini defines, specific to this pool of workers. These settings
@@ -419,7 +424,7 @@ chdir = /
 ;php_admin_value[error_log] = /var/log/fpm-php.www.log
 ;php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 32M
-<% php_settings.each do |php_setting| %>
+<% php_settings.each do |php_setting| -%>
 <%= php_setting %>
 <% end -%>
 <% end -%>

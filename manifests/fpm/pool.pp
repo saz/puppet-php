@@ -25,7 +25,8 @@ define php::fpm::pool(
   $slowlog_timeout = 0,
   $terminate_timeout = 0,
   $chroot = undef,
-  $php_settings = undef
+  $php_settings = undef,
+  $env_settings = undef
 ) {
   include php::fpm
 
