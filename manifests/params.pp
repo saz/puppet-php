@@ -16,7 +16,7 @@ class php::params {
             $apache_dir = "${base_dir}apache2/"
             $apache_ini = "${apache_dir}php.ini"
             $apache_package_name = "libapache2-mod-php5"
-            $apache_service_name = "apache2"
+            $apache_service_name = "httpd"
         }
     }
 }
