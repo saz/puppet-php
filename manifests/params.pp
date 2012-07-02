@@ -1,6 +1,6 @@
 class php::params {
-    case $operatingsystem {
-        /(Ubuntu|Debian)/: {
+    case $::operatingsystem {
+        'ubuntu', 'debian': {
             $base_dir = "/etc/php5/"
             $cli_dir = "${base_dir}cli/"
             $cli_ini = "${cli_dir}php.ini"
@@ -16,7 +16,7 @@ class php::params {
             $apache_dir = "${base_dir}apache2/"
             $apache_ini = "${apache_dir}php.ini"
             $apache_package_name = "libapache2-mod-php5"
-            $apache_service_name = "httpd"
+            $apache_service_name = "apache2"
         }
     }
 }
