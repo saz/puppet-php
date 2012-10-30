@@ -24,7 +24,7 @@ define php::conf($ensure = present, $source = undef, $content = undef, $require 
                 "puppet:///files/${domain}/etc/php5/conf.d/${file_name}",
                 "puppet:///files/global/etc/php5/conf.d/${file_name}",
             ],
-            default => "${source}${file_name}",
+            default => $source,
         },
         content => $content ? {
             undef   => undef,
