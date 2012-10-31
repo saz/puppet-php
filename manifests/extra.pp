@@ -11,7 +11,6 @@ define php::extra (
   $file_name = "${name}.ini"
 
   $source_real = $source ? {
-    default => "${source}${file_name}",
     undef   => undef,
     true    => [
       "puppet:///files/${::fqdn}/etc/php5/extra/${file_name}",
@@ -19,6 +18,7 @@ define php::extra (
       "puppet:///files/${::domain}/etc/php5/extra/${file_name}",
       "puppet:///files/global/etc/php5/extra/${file_name}",
     ],
+    default => $source,
   }
 
   $content_real = $content ? {
