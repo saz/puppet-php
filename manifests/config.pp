@@ -41,7 +41,7 @@ class php::config {
   file { "${php::params::cli_dir}conf.d":
     ensure  => link,
     target  => '../conf.d',
-    forge   => true,
+    force   => true,
     require => File[$php::params::cli_dir],
   }
 }
