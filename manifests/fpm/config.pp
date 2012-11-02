@@ -11,7 +11,9 @@ class php::fpm::config {
   }
 
   file { "${php::params::fpm_dir}conf.d":
-    ensure  => directory,
+    ensure  => link,
+    target  => '../conf.d',
+    force   => true,
     require => File[$php::params::fpm_dir],
     notify  => Class['php::fpm::service'],
   }

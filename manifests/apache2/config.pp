@@ -11,7 +11,9 @@ class php::apache2::config {
   }
 
   file { "${php::params::apache_dir}conf.d":
-    ensure  => directory,
+    ensure  => link,
+    target  => '../conf.d',
+    force   => true,
     require => File[$php::params::apache_dir],
     notify  => Service[$php::params::apache_service_name],
   }
