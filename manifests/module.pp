@@ -29,7 +29,7 @@ define php::module(
     undef   => undef,
     true    => [
       "puppet:///files/${::fqdn}/etc/php5/conf.d/${file_name}",
-      "puppet:///files/${::hostgroup}/etc/php5/conf.d/${file_name}",
+      "puppet:///files/${hostgroup}/etc/php5/conf.d/${file_name}",
       "puppet:///files/${::domain}/etc/php5/conf.d/${file_name}",
       "puppet:///files/global/etc/php5/conf.d/${file_name}",
     ],
