@@ -1,7 +1,7 @@
-; Start a new pool named '<%= name %>'.
+; Start a new pool named '<%= @name %>'.
 ; the variable $pool can be used in any directive and will be replaced by the
-; pool name ('<%= name %>' here)
-[<%= name %>]
+; pool name ('<%= @name %>' here)
+[<%= @name %>]
 
 ; Per pool prefix
 ; It only applies on the following directives:
@@ -15,15 +15,15 @@
 ; Note: This directive can also be relative to the global prefix.
 ; Default Value: none
 <% if @pool_prefix -%>
-prefix = <%= pool_prefix %>
+prefix = <%= @pool_prefix %>
 <% end -%>
 
 ; Unix user/group of processes
 ; Note: The user is mandatory. If the group is not set, the default user's group
 ;       will be used.
-user = <%= user %>
+user = <%= @user %>
 <% if @group -%>
-group = <%= group %>
+group = <%= @group %>
 <% end -%>
 
 ; The address on which to accept FastCGI requests.
@@ -34,39 +34,39 @@ group = <%= group %>
 ;                            specific port;
 ;   '/path/to/unix/socket' - to listen on a unix socket.
 ; Note: This value is mandatory.
-listen = <%= listen %>
+listen = <%= @listen %>
 
 <% if @listen_backlog -%>
 ; Set listen(2) backlog. A value of '-1' means unlimited.
 ; Default Value: 128 (-1 on FreeBSD and OpenBSD)
-listen.backlog = <%= listen_backlog %>
+listen.backlog = <%= @listen_backlog %>
 <% end -%>
 
-<% if listen_type == 'socket' -%>
+<% if @listen_type == 'socket' -%>
 ; Set permissions for unix socket, if one is used. In Linux, read/write
 ; permissions must be set in order to allow connections from a web server. Many
 ; BSD-derived systems allow connections regardless of permissions. 
 ; Default Values: user and group are set as the running user
 ;                 mode is set to 0666
     <% if @socket_owner -%>
-listen.owner = <%= socket_owner %>
+listen.owner = <%= @socket_owner %>
     <% end -%>
     <% if @socket_group -%>
-listen.group = <%= socket_group %>
+listen.group = <%= @socket_group %>
     <% end -%>
     <% if @socket_mode -%>
-listen.mode = <%= socket_mode %>
+listen.mode = <%= @socket_mode %>
     <% end -%>
 <% end -%>
  
-<% if listen_type == 'tcp' and @allowed_clients -%>
+<% if @listen_type == 'tcp' and @allowed_clients -%>
 ; List of ipv4 addresses of FastCGI clients which are allowed to connect.
 ; Equivalent to the FCGI_WEB_SERVER_ADDRS environment variable in the original
 ; PHP FCGI (5.2.2+). Makes sense only with a tcp listening socket. Each address
 ; must be separated by a comma. If this value is left blank, connections will be
 ; accepted from any ip address.
 ; Default Value: any
-listen.allowed_clients = <%= allowed_clients %>
+listen.allowed_clients = <%= @allowed_clients %>
 <% end -%>
 
 ; Choose how the process manager will control the number of child processes.
@@ -93,7 +93,7 @@ listen.allowed_clients = <%= allowed_clients %>
 ;             pm.process_idle_timeout   - The number of seconds after which
 ;                                         an idle process will be killed.
 ; Note: This value is mandatory.
-pm = <%= pm %>
+pm = <%= @pm %>
 
 ; The number of child processes to be created when pm is set to 'static' and the
 ; maximum number of child processes when pm is set to 'dynamic' or 'ondemand'.
@@ -104,30 +104,30 @@ pm = <%= pm %>
 ; forget to tweak pm.* to fit your needs.
 ; Note: Used when pm is set to 'static', 'dynamic' or 'ondemand'
 ; Note: This value is mandatory.
-pm.max_children = <%= pm_max_children %>
+pm.max_children = <%= @pm_max_children %>
 
-<% if pm == 'dynamic' -%>
+<% if @pm == 'dynamic' -%>
 ; The number of child processes created on startup.
 ; Note: Used only when pm is set to 'dynamic'
 ; Default Value: min_spare_servers + (max_spare_servers - min_spare_servers) / 2
-pm.start_servers = <%= pm_start_servers %>
+pm.start_servers = <%= @pm_start_servers %>
 
 ; The desired minimum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.min_spare_servers = <%= pm_min_spare_servers %>
+pm.min_spare_servers = <%= @pm_min_spare_servers %>
 
 ; The desired maximum number of idle server processes.
 ; Note: Used only when pm is set to 'dynamic'
 ; Note: Mandatory when pm is set to 'dynamic'
-pm.max_spare_servers = <%= pm_max_spare_servers %>
+pm.max_spare_servers = <%= @pm_max_spare_servers %>
 <% end -%>
 
-<% if pm == 'ondemand' -%>
+<% if @pm == 'ondemand' -%>
 ; The number of seconds after which an idle process will be killed.
 ; Note: Used only when pm is set to 'ondemand'
 ; Default Value: 10s
-pm.process_idle_timeout = <%= pm_process_idle_timeout %>
+pm.process_idle_timeout = <%= @pm_process_idle_timeout %>
 <% end -%>
 
 <% if @pm_max_requests -%>
@@ -135,7 +135,7 @@ pm.process_idle_timeout = <%= pm_process_idle_timeout %>
 ; This can be useful to work around memory leaks in 3rd party libraries. For
 ; endless request processing specify '0'. Equivalent to PHP_FCGI_MAX_REQUESTS.
 ; Default Value: 0
-pm.max_requests = <%= pm_max_requests %>
+pm.max_requests = <%= @pm_max_requests %>
 <% end -%>
 
 <% if @pm_status_path -%>
@@ -236,7 +236,7 @@ pm.max_requests = <%= pm_max_requests %>
 ;       anything, but it may not be a good idea to use the .php extension or it
 ;       may conflict with a real PHP file.
 ; Default Value: not set 
-pm.status_path = <%= pm_status_path %>
+pm.status_path = <%= @pm_status_path %>
 <% end -%>
 
 <% if @ping_path -%>
@@ -250,20 +250,20 @@ pm.status_path = <%= pm_status_path %>
 ;       anything, but it may not be a good idea to use the .php extension or it
 ;       may conflict with a real PHP file.
 ; Default Value: not set
-ping.path = <%= ping_path %>
+ping.path = <%= @ping_path %>
 
 <% if @ping_response -%>
 ; This directive may be used to customize the response of a ping request. The
 ; response is formatted as text/plain with a 200 response code.
 ; Default Value: pong
-ping.response = <%= ping_response %>
+ping.response = <%= @ping_response %>
 <% end -%>
 <% end -%>
 
 <% if @access_log -%>
 ; The access log file
 ; Default: not set
-access.log = <%= access_log %>
+access.log = <%= @access_log %>
 
 <% if @access_log_format -%>
 ; The access log format.
@@ -319,7 +319,7 @@ access.log = <%= access_log %>
 ;  %u: remote user
 ;
 ; Default: "%R - %u %t \"%m %r\" %s"
-access.format = <%= access_log_format %>
+access.format = <%= @access_log_format %>
 <% end -%>
 <% end -%>
 
@@ -327,13 +327,13 @@ access.format = <%= access_log_format %>
 ; The log file for slow requests
 ; Default Value: not set
 ; Note: slowlog is mandatory if request_slowlog_timeout is set
-slowlog = <%= slowlog %>
+slowlog = <%= @slowlog %>
 
 ; The timeout for serving a single request after which a PHP backtrace will be
 ; dumped to the 'slowlog' file. A value of '0s' means 'off'.
 ; Available units: s(econds)(default), m(inutes), h(ours), or d(ays)
 ; Default Value: 0
-request_slowlog_timeout = <%= slowlog_timeout %>
+request_slowlog_timeout = <%= @slowlog_timeout %>
 <% end -%>
 
 ; The timeout for serving a single request after which the worker process will
@@ -341,8 +341,8 @@ request_slowlog_timeout = <%= slowlog_timeout %>
 ; does not stop script execution for some reason. A value of '0' means 'off'.
 ; Available units: s(econds)(default), m(inutes), h(ours), or d(ays)
 ; Default Value: 0
-request_terminate_timeout = <%= terminate_timeout %>
  
+request_terminate_timeout = <%= @terminate_timeout %>
 ; Set open file descriptor rlimit.
 ; Default Value: system defined value
 ;rlimit_files = 1024
@@ -362,7 +362,7 @@ request_terminate_timeout = <%= terminate_timeout %>
 ;       possible. However, all PHP paths will be relative to the chroot
 ;       (error_log, sessions.save_path, ...).
 ; Default Value: not set
-chroot = <%= chroot %>
+chroot = <%= @chroot %>
 <% end -%>
  
 ; Chdir to this directory at the start.
@@ -394,7 +394,7 @@ chdir = /
 ;env[TMPDIR] = /tmp
 ;env[TEMP] = /tmp
 <% if @env_settings -%>
-    <% env_settings.each do |env_setting| -%>
+    <% @env_settings.each do |env_setting| -%>
 <%= env_setting %>
     <% end -%>
 <% end -%>
@@ -424,7 +424,7 @@ chdir = /
 ;php_admin_value[error_log] = /var/log/fpm-php.www.log
 ;php_admin_flag[log_errors] = on
 ;php_admin_value[memory_limit] = 32M
-<% php_settings.each do |php_setting| -%>
+<% @php_settings.each do |php_setting| -%>
 <%= php_setting %>
 <% end -%>
 <% end -%>
